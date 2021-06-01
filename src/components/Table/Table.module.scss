@@ -1,0 +1,15 @@
+.tableContainer {
+  width: 100%;
+
+  #scroll {
+    padding-bottom: 5px;
+
+    & > div {
+      width: 100%;
+    }
+
+    & ~ div {
+      bottom: -5px !important;
+    }
+  }
+}

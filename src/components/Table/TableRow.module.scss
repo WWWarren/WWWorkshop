@@ -1,0 +1,53 @@
+.tableRow {
+  display: grid;
+  display: -ms-grid;
+  column-gap: 30px;
+  height: 30px;
+  align-items: center;
+  -ms-grid-row-align: center;
+  background: none;
+  font-size: 13px;
+  border-bottom: 1px solid #ddd;
+
+  &.ghost {
+    background: #fff !important;
+    &:hover {
+      background: #fff !important;
+      cursor: auto;
+      div {
+        background: #fff !important;
+      }
+    }
+  }
+
+  // &:hover {
+  //   background: #e5f5f9;
+  //   div {
+  //     background: #e5f5f9;
+  //   }
+  // }
+
+  div {
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+  }
+
+  > div:first-child {
+    padding: 0px 5px;
+  }
+}
+
+.section {
+  display: grid;
+  display: -ms-grid;
+  column-gap: 30px;
+  align-items: center;
+  -ms-grid-row-align: center;
+  font-size: 13px;
+  padding: 0px 30px;
+  margin: 0px 30px;
+  height: 30px;
+  background: rgba(229,245,249, 0.5);
+  text-align: center;
+}

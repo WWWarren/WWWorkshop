@@ -1,0 +1,76 @@
+.tablePagingContainer {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+  div {
+    flex: 1;
+  }
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  margin: 0;
+  padding: 0;
+  .button {
+    list-style: none;
+    &:last-child {
+      .buttonLink {
+        margin-right: 0px;
+      }
+    }
+    .buttonLink {
+      width: 30px;
+      height: 30px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #ffffff;
+      color: #162944;
+      border: 1px solid #e8e9ec;
+      border-radius: 4px;
+      margin: 4px;
+      cursor: pointer;
+      font-size: 12px;
+      &:hover {
+        text-decoration: none;
+      }
+      &.buttonLinkActive {
+        background: #162944;
+        color: #fff;
+      }
+    }
+  }
+  .prev {
+    border: solid #162944;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(135deg);
+  }
+  .next {
+    border: solid #162944;
+    border-width: 0 1px 1px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-45deg);
+  }
+}
+
+.pagingContainer {
+  display: flex;
+  justify-content: flex-end;
+  width: 100%;
+}
+.break {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  a {
+    text-decoration: none;
+    color: #162944;
+    &:hover {
+      text-decoration: none;
+    }
+  }
+}
