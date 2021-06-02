@@ -50,6 +50,7 @@ export function TableHeader({
                 <TableHeader 
                   columns={c.childElements} 
                   columnWidths={columnWidths} 
+                  minColumnWidth={minColumnWidth}
                   onSort={onSort} 
                   sortState={sortState} 
                   data-testid='nestedTableHeader' 

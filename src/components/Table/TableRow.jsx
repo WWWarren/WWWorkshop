@@ -4,6 +4,15 @@ import DOMPurify from 'dompurify';
 
 import styles from './TableRow.module.scss';
 
+export function onClickRow(onClick, data, column) {
+  if (!onClick) return null;
+
+  if ((data.id && data.id === 'ghost') || column.type === 'section') {
+    return null;
+  }
+  return () => onClick(data)
+}
+
 export function TableRow({
   data,
   columns,
@@ -12,6 +21,7 @@ export function TableRow({
   onClick,
   section,
 }) {
+  console.log(onClick);
   return (
     <div
       className={`
@@ -30,11 +40,7 @@ export function TableRow({
       {columns.map((c, i) => (
         <div
           key={i}
-          onClick={
-            (data.id && data.id === 'ghost') || c.type === 'section'
-              ? null
-              : () => onClick(data)
-          }
+          onClick={onClickRow(onClick, data, c)}
           style={{
             textAlign: c.center || c.dataType === 'number' ? 'center' : '',
             minWidth: `${minColumnWidth}px`,
@@ -66,6 +72,7 @@ export function TableRow({
               data={data}
               columns={c.childElements}
               columnWidths={columnWidths}
+              minColumnWidth={minColumnWidth}
               onClick={onClick}
               data-testid='nestedTableRow'
               section

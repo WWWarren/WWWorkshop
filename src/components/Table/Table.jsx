@@ -22,7 +22,7 @@ const createColumns = (columns, minColumnWidth) => {
           ? c.childElements.length
           : 1;
       columnString = `${existingString}minmax(${
-        (minColumnWidth * childElements) + (c.type === 'section' ? 120 + ((childElements * 30) - 30) : 0) 
+        (minColumnWidth * childElements) + (c.type === 'section' ? ((childElements * 30) - 30) : 0) 
       }px, ${childElements}fr)`;
     }
   });
@@ -51,8 +51,6 @@ const calculateMinWidth = (config, minColumnWidth) => {
       minWidth = c.width
         ? minWidth + Number(c.width)
         : minWidth + minColumnWidth;
-    } else if (c.type === 'section') {
-      minWidth += 60
     }
   });
 
@@ -137,6 +135,9 @@ export const Table = ({
         style={{ width: '100%', height: '100%' }}
         translateContentSizeYToHolder
         disableTracksWidthCompensation
+        contentProps={{
+          className: styles.table
+        }}
       >
         <div
           style={{

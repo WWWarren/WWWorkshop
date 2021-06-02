@@ -16,6 +16,7 @@
     font-weight: bold;
     position: relative;
     -ms-grid-row-align: end;
+    border-bottom: 0px;
 
     span {
       &:hover {
@@ -25,7 +26,6 @@
 
     &.sectionHeader {
       padding: 0px;
-      margin: 0px 30px;
       height: 100%;
       display: flex;
       flex-direction: column;
@@ -33,9 +33,7 @@
       text-align: center;
 
       div {
-        padding: 0px 30px;
         div {
-          padding: 8px 0px;
           &:hover {
             cursor: auto !important;
           }
@@ -44,6 +42,7 @@
 
       > div {
         background: rgba(229,245,249, 0.5);
+        padding-bottom: 0px;
       }
 
       > span {
@@ -64,21 +63,19 @@
 }
 
 .sortArrow {
-  border: solid transparent;
-  border-bottom-color: rgba(0, 0, 0, 0.6);
-  border-width: 5px;
-  display: inline-block;
-  width: 10px;
-  height: 10px;
+  width: 0; 
+  height: 0; 
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  
+  border-bottom: 5px solid white;
   position: absolute;
-  bottom: 0px;
+  bottom: 0;
   right: 50%;
   margin-right: -5px;
-  z-index: 100;
 
   &.down {
-    border-top-color: rgba(0, 0, 0, 0.6);
-    border-bottom-color: transparent;
-    bottom: -5px;
+    border-top: 5px solid white;
+    border-bottom: 0px;
   }
 }
