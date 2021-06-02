@@ -21,7 +21,6 @@ export function TableRow({
   onClick,
   section,
 }) {
-  console.log(onClick);
   return (
     <div
       className={`

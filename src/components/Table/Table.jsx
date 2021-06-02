@@ -118,7 +118,6 @@ export const Table = ({
   if (numberOfRowsPerPage && data.length < numberOfRowsPerPage) {
     sortedData = addGhostRows(sortedData);
   }
-  console.log(sortedData);
 
   // Composition stuff. Can be expanded with more features
   const paging = React.Children.toArray(children).filter(
