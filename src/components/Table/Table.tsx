@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import PropTypes from 'prop-types';
 import { Scrollbar } from 'react-scrollbars-custom';
 
 import { listToTree, sortData } from '../../utils/list';
@@ -7,11 +6,15 @@ import { listToTree, sortData } from '../../utils/list';
 import { TableHeader } from './TableHeader';
 import { TableRow } from './TableRow';
 import { TablePaging } from './TablePaging';
+import { Config } from './TableInterfaces';
 
 import styles from './Table.module.scss';
 
-const createColumns = (columns, minColumnWidth) => {
-  let columnString;
+function createColumns(
+  columns: Config[], 
+  minColumnWidth: number,
+): string {
+  let columnString = '';
   columns.forEach((c) => {
     const existingString = columnString ? `${columnString} ` : '';
     if (c.width) {
@@ -29,7 +32,11 @@ const createColumns = (columns, minColumnWidth) => {
   return columnString;
 }
 
-const addGhostRows = (d, numberOfRowsPerPage, data) => {
+function addGhostRows(
+  rows: { id: string }[], 
+  numberOfRowsPerPage: number, 
+  data: {}[],
+): { id: string }[] {
   const differenceInRows = numberOfRowsPerPage - data.length;
 
   const array2 = [...new Array(differenceInRows)];
@@ -39,10 +46,13 @@ const addGhostRows = (d, numberOfRowsPerPage, data) => {
     };
   });
 
-  return [...d, ...addDetails];
+  return [...rows, ...addDetails];
 }
 
-const calculateMinWidth = (config, minColumnWidth) => {
+function calculateMinWidth(
+  config: Config[], 
+  minColumnWidth: number,
+): string {
   let minWidth = 0;
 
   // Calcuate total width of columns
@@ -59,7 +69,28 @@ const calculateMinWidth = (config, minColumnWidth) => {
   return `${minWidth}px`;
 }
 
-export const Table = ({
+
+
+// Component
+type TableProps = {
+  config: Config[],
+  data: {
+    id: string,
+  }[],
+  minColumnWidth?: number,
+  onColumnSort?: (obj: object) => void,
+  sortWithinTable?: boolean,
+  defaultSortKey?: string,
+  defaultSortOrder?: boolean,
+  onClick?: () => void,
+  errorMessage?: string,
+  noResultsMessage?: string,
+  numberOfRowsPerPage?: number,
+};
+
+export const Table: React.FC<TableProps> & {
+  Paging: typeof TablePaging,
+} = ({
   config,
   data,
   minColumnWidth = 100,
@@ -73,7 +104,11 @@ export const Table = ({
   children,
   numberOfRowsPerPage,
 }) => {
-  const [sort, setSortState] = useState({
+  const [sort, setSortState] = useState<{
+    sortKey: string,
+    sortType: string | null,
+    ascendingSort: boolean,
+  }>({
     sortKey: defaultSortKey,
     sortType: null,
     ascendingSort: defaultSortOrder,
@@ -83,7 +118,12 @@ export const Table = ({
   if (!config || !data) return <div>{errorMessage}</div>;
 
   // Handle sorting of data in table
-  function setSort(sortObj) {
+  function setSort(
+    sortObj: {
+      sortKey: string,
+      sortType: string | null,
+    }
+  ) {
     const obj = {
       ...sortObj,
       ascendingSort:
@@ -91,12 +131,14 @@ export const Table = ({
     };
 
     setSortState(obj);
-    if (!sortWithinTable) {
+    if (!sortWithinTable && onColumnSort) {
       onColumnSort(obj); 
     }
   }
 
-  function sortDataInTable(d) {
+  function sortDataInTable(
+    d: {}[]
+  ): { id: string }[] {
     return sortData(
       d,
       sort.sortKey,
@@ -116,7 +158,7 @@ export const Table = ({
 
   // Adds ghost rows to data if needed
   if (numberOfRowsPerPage && data.length < numberOfRowsPerPage) {
-    sortedData = addGhostRows(sortedData);
+    sortedData = addGhostRows(sortedData, numberOfRowsPerPage, data);
   }
 
   // Composition stuff. Can be expanded with more features
@@ -147,7 +189,7 @@ export const Table = ({
           data-testid='table'
         >
           <TableHeader
-            columns={nested ? listToTree(config, true) : config}
+            columns={nested ? listToTree(config, true)! : config}
             columnWidths={createColumns}
             minColumnWidth={minColumnWidth}
             onSort={setSort}
@@ -161,7 +203,7 @@ export const Table = ({
               <TableRow
                 key={i}
                 data={d}
-                columns={nested ? listToTree(config, true) : config}
+                columns={nested ? listToTree(config, true)! : config}
                 columnWidths={createColumns}
                 minColumnWidth={minColumnWidth}
                 onClick={onClick}
@@ -176,18 +218,3 @@ export const Table = ({
 }
 
 Table.Paging = TablePaging;
-
-Table.propTypes = {
-  config: PropTypes.array,
-  data: PropTypes.array,
-  minColumnWidth: PropTypes.number,
-  onColumnSort: PropTypes.func,
-  children: PropTypes.oneOfType([PropTypes.object, PropTypes.array]),
-  sortWithinTable: PropTypes.bool,
-  defaultSortKey: PropTypes.string,
-  defaultSortOrder: PropTypes.bool,
-  onClick: PropTypes.func,
-  errorMessage: PropTypes.string,
-  noResultsMessage: PropTypes.string,
-  numberOfRowsPerPage: PropTypes.number,
-};

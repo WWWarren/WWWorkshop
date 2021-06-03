@@ -1,15 +1,49 @@
 import React from 'react';
-import PropTypes from 'prop-types';
+
+import { Config } from './TableInterfaces';
 
 import styles from './TableHeader.module.scss';
 
-export function TableHeader({ 
+export function handleClick(
+  c: { 
+    type: string,
+    key: string,
+    dataType?: string,
+  }, 
+  onSortFunction: (obj: {
+    sortKey: string,
+    sortType: string,
+  }) => void,
+) {
+  if (c.type === 'column' && c.dataType) { 
+    return onSortFunction({ sortKey: c.key, sortType: c.dataType })
+  }
+  return null;
+}
+
+
+// Component
+type TableHeaderProps = {
+  columns: Config[],
+  columnWidths: (columns: Config[], min: number) => string,
+  minColumnWidth: number,
+  onSort: (obj: {
+    sortKey: string,
+    sortType: string | null,
+  }) => void,
+  sortState: {
+    sortKey: string,
+    ascendingSort: boolean,
+  },
+};
+
+export const TableHeader: React.FC<TableHeaderProps> = ({ 
   columns, 
   columnWidths,
   minColumnWidth,
   onSort,
   sortState,
-}){
+}) => {
   return (
     <div
       className={styles.tableHeader}
@@ -29,9 +63,9 @@ export function TableHeader({
             style={{
               textAlign: 'center',
               minWidth: `${minColumnWidth}px`,
-              msGridColumn: i + 1
+              // msGridColumn: i + 1
             }}
-            onClick={c.type === 'column' ? () => onSort({ sortKey: c.key, sortType: c.dataType }) : null}
+            onClick={() => handleClick(c, onSort)}
             data-testid={`tableHeader-${c.id}`}
           >
             <span>
@@ -62,11 +96,3 @@ export function TableHeader({
     </div>
   )
 }
-
-TableHeader.propTypes = {
-  columns: PropTypes.array,
-  columnWidths: PropTypes.func,
-  minColumnWidth: PropTypes.number,
-  onSort: PropTypes.func,
-  sortState: PropTypes.object,
-};

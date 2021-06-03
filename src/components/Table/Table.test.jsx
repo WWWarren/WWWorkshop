@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, screen, fireEvent } from '@testing-library/react';
 
-import { Table } from 'Components/Table';
+import { Table } from './Table';
 
 describe('<Table />', () => {
   const config = [

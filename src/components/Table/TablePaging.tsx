@@ -1,16 +1,23 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import ReactPaginate from 'react-paginate';
 
 import styles from './TablePaging.module.scss';
 
-export function TablePaging({
+type TablePagingProps = {
+  page: number,
+  onPageClick: () => void,
+  resultsText: string,
+  totalNumberOfPages: number,
+  onlyShowResults: boolean,
+};
+
+export const TablePaging: React.FC<TablePagingProps> = ({
   page,
   onPageClick,
   resultsText,
   totalNumberOfPages,
   onlyShowResults,
-}) {
+}) => {
   return (
     <div className={styles.tablePagingContainer}>
       {resultsText && <div>{resultsText}</div>}
@@ -38,11 +45,3 @@ export function TablePaging({
     </div>
   );
 }
-
-TablePaging.propTypes = {
-  page: PropTypes.number,
-  onPageClick: PropTypes.func,
-  resultsText: PropTypes.string,
-  totalNumberOfPages: PropTypes.number,
-  onlyShowResults: PropTypes.bool,
-};

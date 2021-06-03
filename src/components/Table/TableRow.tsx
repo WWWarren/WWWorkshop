@@ -1,26 +1,46 @@
 import React from 'react';
-import PropTypes from 'prop-types';
 import DOMPurify from 'dompurify';
+
+import { Config } from './TableInterfaces';
 
 import styles from './TableRow.module.scss';
 
-export function onClickRow(onClick, data, column) {
-  if (!onClick) return null;
+export function handleClick(
+  data: { id: string },
+  c: { type: string }, 
+  onClickFunction?: (obj: typeof data) => void,
+) {
+  if (!onClickFunction) return null;
 
-  if ((data.id && data.id === 'ghost') || column.type === 'section') {
+  if ((data.id && data.id === 'ghost') || c.type === 'section') {
     return null;
   }
-  return () => onClick(data)
+  return onClickFunction(data)
 }
 
-export function TableRow({
+
+
+// Component
+type TableRowProps = {
+  data: { 
+    id: string,
+    [key: string]: string,
+  },
+  columns: Config[],
+  columnWidths: (col: Config[], min: number) => string,
+  minColumnWidth: number,
+  onClick?: () => void,
+  section?: boolean,
+};
+
+export const TableRow: React.FC<TableRowProps> = ({
   data,
   columns,
   columnWidths,
   minColumnWidth,
   onClick,
   section,
-}) {
+}) => {
   return (
     <div
       className={`
@@ -39,15 +59,15 @@ export function TableRow({
       {columns.map((c, i) => (
         <div
           key={i}
-          onClick={onClickRow(onClick, data, c)}
+          onClick={() => handleClick(data, c, onClick)}
           style={{
-            textAlign: c.center || c.dataType === 'number' ? 'center' : '',
+            textAlign: c.center || c.dataType === 'number' ? 'center' : 'left',
             minWidth: `${minColumnWidth}px`,
-            msGridColumn: i + 1,
+            // msGridColumn: i + 1,
           }}
           data-testid={`tableRow-${data.id}-${c.key}`}
         >
-          {data[c.key] && data.id !== 'ghost' && (
+          {data.id !== 'ghost' && (
             <>
               {c.prefix && (
                 <span
@@ -82,12 +102,3 @@ export function TableRow({
     </div>
   );
 }
-
-TableRow.propTypes = {
-  data: PropTypes.object,
-  columns: PropTypes.array,
-  columnWidths: PropTypes.func,
-  minColumnWidth: PropTypes.number,
-  onClick: PropTypes.func,
-  section: PropTypes.bool,
-};
