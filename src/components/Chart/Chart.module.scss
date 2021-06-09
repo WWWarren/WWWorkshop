@@ -1,0 +1,117 @@
+/*--------------------------------------------------------*/
+/* ©2018 REZATEC LIMITED ALL RIGHTS RESERVED */
+/* Author Steven Nettleingham (steven.nettleingham@rezatec.com) */
+/* BarLineCombi - creates a bar / line chart */
+/*--------------------------------------------------------*/
+
+.chart_container {
+  background: #ffffff;
+  font-size: 0.8em;
+  color: #222222;
+
+  .chart_pretext {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .chart_posttext {
+    padding: 5px 10px;
+    font-size: 12px;
+  }
+
+  .chart {
+    display:flex;
+
+    .yAxis {
+      width: 30px;
+      flex-shrink: 0;
+      position: relative;
+
+      .label {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        white-space: nowrap;
+        transform: translate(-50%, -50%) rotate(-90deg);
+      }
+    }
+  }
+
+  .xAxis {
+    height: 30px;
+    .label {
+      text-align: center;
+      line-height: 30px;
+    }
+  }
+
+  &.download {
+    .yAxis {
+      width: 50px;
+
+      .label {
+        font-size: 40px;
+      }
+    }
+    .xAxis {
+      height: 60px;
+      .label {
+        text-align: center;
+        line-height: 60px;
+        font-size: 40px;
+      }
+    }
+
+    .chart_pretext {
+      padding: 10px 20px;
+      font-size: 40px;
+    }
+
+    .chart_posttext {
+      padding: 10px 20px;
+      font-size: 40px;
+    }
+
+    .legend {
+      font-size: 40px;
+      padding: 0 20px;
+
+      .graphic {
+        width: 50px;
+        &.line {
+          height: 10px;
+        }
+
+        &.bar {
+          height: 40px;
+        }
+      }
+    }
+  }
+}
+
+.legendContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+
+  .legend {
+    padding: 0 5px;
+    display: flex;
+    align-items: center;
+
+    .graphic {
+      width: 15px;
+      flex-shrink: 0;
+      margin-right: 5px;
+
+      &.line {
+        height: 3px;
+      }
+
+      &.bar {
+        height: 10px;
+      }
+    }
+  }
+}
